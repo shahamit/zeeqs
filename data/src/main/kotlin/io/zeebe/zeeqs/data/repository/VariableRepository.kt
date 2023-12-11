@@ -15,4 +15,7 @@ interface VariableRepository : PagingAndSortingRepository<Variable, Long>,
 
     @Transactional(readOnly = true)
     fun findByScopeKey(scopeKey: Long): List<Variable>
+
+    @Transactional(readOnly = true)
+    fun findFirst500ByNameOrderByTimestampDesc(name: String): List<Variable>
 }

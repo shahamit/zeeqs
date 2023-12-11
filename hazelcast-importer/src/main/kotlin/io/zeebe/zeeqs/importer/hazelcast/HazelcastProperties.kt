@@ -9,6 +9,7 @@ data class HazelcastProperties(
         val connection: String = "localhost:5701",
         val connectionTimeout: String = "PT1M",
         val ringbuffer: String = "zeebe",
+        val incidentRingBuffer: String = "zeebe-incidents",
         val connectionInitialBackoff: String = "PT15S",
         val connectionBackoffMultiplier: Double = 2.0,
         val connectionMaxBackoff: String = "PT30S"

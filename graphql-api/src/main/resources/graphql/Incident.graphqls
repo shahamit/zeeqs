@@ -20,6 +20,16 @@ enum IncidentState {
     RESOLVED
 }
 
+type IncidentCore {
+    errorType: String!
+    errorMessage: String!
+
+    state: IncidentState!
+    processInstanceKey: String!
+    processDefinitionKey: String!
+    elementInstanceKey: String!
+}
+
 type IncidentConnection {
     totalCount: Int!
     nodes: [Incident!]!
@@ -27,6 +37,8 @@ type IncidentConnection {
 
 extend type Query {
     incident(key: ID!): Incident
+
+    incidentsForVariableValue(variableValue: String): [IncidentCore!]!
 
     incidents(
         perPage: Int = 10,
