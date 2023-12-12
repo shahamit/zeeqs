@@ -14,7 +14,7 @@ class IncidentVariableQueryResolver(
 ) {
 
     @QueryMapping
-    fun incidentsForVariableValue(@Argument variableValue: String): List<Incident> {
+    fun incidentsForUUIDVariable(@Argument variableValue: String): List<Incident> {
         val procesInstanceKey = variableRepository.findFirst500ByNameOrderByTimestampDesc("uuid")
                 .filter { v -> v.value.contains(variableValue) }.first().processInstanceKey
         return incidentRepository.findByProcessInstanceKey(procesInstanceKey)
