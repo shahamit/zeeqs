@@ -1,6 +1,7 @@
 package io.zeebe.zeeqs
 
 import io.zeebe.zeeqs.importer.hazelcast.HazelcastImporter
+import io.zeebe.zeeqs.importer.hazelcast.HazelcastIncidentImporter
 import io.zeebe.zeeqs.importer.hazelcast.HazelcastProperties
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
@@ -14,7 +15,8 @@ import org.springframework.cache.annotation.EnableCaching
 @EnableConfigurationProperties(HazelcastProperties::class)
 class ZeeqsApplication(
         val hazelcastProperties: HazelcastProperties,
-        val hazelcastImporter: HazelcastImporter
+        val hazelcastImporter: HazelcastImporter,
+        val hazelcastIncidentImporter: HazelcastIncidentImporter
 ) {
     val logger = LoggerFactory.getLogger(ZeeqsApplication::class.java)
 
@@ -23,6 +25,8 @@ class ZeeqsApplication(
         logger.info("Connecting to Hazelcast: '$hazelcastProperties'")
         hazelcastImporter.start(hazelcastProperties)
         logger.info("Connected to Hazelcast!")
+        hazelcastIncidentImporter.start(hazelcastProperties)
+        logger.info("Connected to Incident Hazelcast!")
     }
 }
 

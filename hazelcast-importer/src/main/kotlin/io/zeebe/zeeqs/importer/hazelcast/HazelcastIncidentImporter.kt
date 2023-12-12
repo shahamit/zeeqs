@@ -4,6 +4,7 @@ import com.hazelcast.client.HazelcastClient
 import com.hazelcast.client.config.ClientConfig
 import io.zeebe.exporter.proto.Schema
 import io.zeebe.exporter.proto.Schema.RecordMetadata.RecordType
+import io.zeebe.hazelcast.connect.java.ZeebeHazelcastIncidentProcessor
 import io.zeebe.zeeqs.data.entity.Incident
 import io.zeebe.zeeqs.data.entity.IncidentState
 import io.zeebe.zeeqs.data.entity.Variable
@@ -32,6 +33,7 @@ class HazelcastIncidentImporter(
     fun start(hazelcastProperties: HazelcastProperties) {
 
         val hazelcastConnection = hazelcastProperties.connection
+        val hazelcastRingbuffer = hazelcastProperties.incidentRingBuffer
         val hazelcastConnectionTimeout = Duration.parse(hazelcastProperties.connectionTimeout)
         val hazelcastIncidentRingbuffer = hazelcastProperties.incidentRingBuffer
         val hazelcastConnectionInitialBackoff =
@@ -43,6 +45,7 @@ class HazelcastIncidentImporter(
                 .orElse(
                         HazelcastConfig(
                                 id = hazelcastConnection, //todo - should accept ring buffer name
+                                ringBufferName = hazelcastRingbuffer,
                                 sequence = -1
                         )
                 )

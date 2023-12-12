@@ -24,6 +24,7 @@ type IncidentCore {
     errorType: String!
     errorMessage: String!
 
+    creationTime(zoneId: String = "Z"): String
     state: IncidentState!
     processInstanceKey: String!
     processDefinitionKey: String!
@@ -38,7 +39,7 @@ type IncidentConnection {
 extend type Query {
     incident(key: ID!): Incident
 
-    incidentsForVariableValue(variableValue: String): [IncidentCore!]!
+    incidentsForUUIDVariable(variableValue: String): [IncidentCore!]!
 
     incidents(
         perPage: Int = 10,
