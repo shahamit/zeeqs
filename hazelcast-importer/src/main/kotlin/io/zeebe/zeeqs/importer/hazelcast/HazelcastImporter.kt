@@ -52,7 +52,6 @@ class HazelcastImporter(
             .orElse(
                 HazelcastConfig(
                     id = hazelcastConnection,
-                    ringBufferName = hazelcastRingbuffer,
                     sequence = -1
                 )
             )

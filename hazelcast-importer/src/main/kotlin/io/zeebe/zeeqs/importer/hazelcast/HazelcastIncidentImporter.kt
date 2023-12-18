@@ -20,7 +20,7 @@ import java.time.Duration
 
 @Component
 class HazelcastIncidentImporter(
-        val hazelcastConfigRepository: HazelcastConfigRepository,
+        val hazelcastConfigRepositoryV2: HazelcastConfigRepositoryV2,
         val incidentRepository: IncidentRepository,
         val variableRepository: VariableRepository,
         val variableUpdateRepository: VariableUpdateRepository,
@@ -41,10 +41,10 @@ class HazelcastIncidentImporter(
         val hazelcastConnectionBackoffMultiplier = hazelcastProperties.connectionBackoffMultiplier
         val hazelcastConnectionMaxBackoff = Duration.parse(hazelcastProperties.connectionMaxBackoff)
 
-        val hazelcastConfig = hazelcastConfigRepository.findById(hazelcastConnection)
+        val hazelcastConfig = hazelcastConfigRepositoryV2.findById(hazelcastConnection)
                 .orElse(
-                        HazelcastConfig(
-                                id = hazelcastConnection, //todo - should accept ring buffer name
+                        HazelcastConfigV2(
+                                hzConnectionString = hazelcastConnection, //todo - should accept ring buffer name
                                 ringBufferName = hazelcastRingbuffer,
                                 sequence = -1
                         )
@@ -52,7 +52,7 @@ class HazelcastIncidentImporter(
 
         val updateSequence: ((Long) -> Unit) = {
             hazelcastConfig.sequence = it
-            hazelcastConfigRepository.save(hazelcastConfig)
+            hazelcastConfigRepositoryV2.save(hazelcastConfig)
         }
 
         val clientConfig = ClientConfig()

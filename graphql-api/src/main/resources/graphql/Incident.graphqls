@@ -39,7 +39,7 @@ type IncidentConnection {
 extend type Query {
     incident(key: ID!): Incident
 
-    incidentsForUUIDVariable(variableValue: String): [IncidentCore!]!
+    incidentsForUUIDVariable(variableValue: String): Incident
 
     incidents(
         perPage: Int = 10,
