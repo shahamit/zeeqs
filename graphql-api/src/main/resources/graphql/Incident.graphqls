@@ -20,15 +20,17 @@ enum IncidentState {
     RESOLVED
 }
 
-type IncidentCore {
+type IncidentRingbufferForUuid {
+    key: ID!
     errorType: String!
     errorMessage: String!
 
     creationTime(zoneId: String = "Z"): String
-    state: IncidentState!
+    elementType: BpmnElementType!
     processInstanceKey: String!
-    processDefinitionKey: String!
-    elementInstanceKey: String!
+
+    elementId: String!
+    elementName: String!
 }
 
 type IncidentConnection {
@@ -39,7 +41,7 @@ type IncidentConnection {
 extend type Query {
     incident(key: ID!): Incident
 
-    incidentsForUUIDVariable(variableValue: String): Incident
+    incidentsForUUIDVariable(uuidVariableValue: String): [IncidentRingbufferForUuid!]!
 
     incidents(
         perPage: Int = 10,
