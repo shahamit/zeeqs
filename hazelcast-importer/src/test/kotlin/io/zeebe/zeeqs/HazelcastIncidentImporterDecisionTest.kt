@@ -9,7 +9,6 @@ import io.zeebe.zeeqs.data.repository.DecisionRepository
 import io.zeebe.zeeqs.data.repository.DecisionRequirementsRepository
 import io.zeebe.zeeqs.data.repository.EvaluatedDecisionRepository
 import io.zeebe.zeeqs.importer.hazelcast.HazelcastImporter
-import io.zeebe.zeeqs.importer.hazelcast.HazelcastIncidentImporter
 import io.zeebe.zeeqs.importer.hazelcast.HazelcastProperties
 import jakarta.transaction.Transactional
 import org.assertj.core.api.Assertions.assertThat
@@ -25,8 +24,8 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @SpringBootTest
 @Testcontainers
 @Transactional
-class HazelcastImporterDecisionTest(
-    @Autowired val incidentImporter: HazelcastIncidentImporter,
+class HazelcastIncidentImporterDecisionTest(
+    @Autowired val importer: HazelcastImporter,
     @Autowired val decisionRepository: DecisionRepository,
     @Autowired val decisionRequirementsRepository: DecisionRequirementsRepository,
     @Autowired val decisionEvaluationRepository: DecisionEvaluationRepository,
@@ -48,7 +47,7 @@ class HazelcastImporterDecisionTest(
         val hazelcastProperties = HazelcastProperties(
             "localhost:$port", "PT10S", "zeebe"
         )
-        incidentImporter.start(hazelcastProperties)
+        importer.start(hazelcastProperties)
     }
 
     @BeforeEach
